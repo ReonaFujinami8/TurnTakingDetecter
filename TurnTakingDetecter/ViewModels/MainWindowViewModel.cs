@@ -1,10 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using TurnTakingDetecter.Models;
 
 namespace TurnTakingDetecter.ViewModels
 {
-    internal class MainWindowViewModel
+    public class MainWindowViewModel
     {
+        private Manager _manager = new Manager();
+        public MainWindowViewModel () {
+            
+        }
+
+        private void GetAudioDevice () {
+
+        }
     }
 }

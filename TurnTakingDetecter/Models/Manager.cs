@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TurnTakingDetecter.Models
 {
-    internal class Model
+    public class Manager
     {
     }
 }
