@@ -15,7 +15,7 @@ namespace TurnTakingDetecter.Modules
             _webView = new WebView2 ();
             await _webView.EnsureCoreWebView2Async();
 
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Modules", "ASR.html"));
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Modules", "AudioManager.html"));
 
             _webView.Source = new Uri(path);
 
@@ -25,14 +25,14 @@ namespace TurnTakingDetecter.Modules
         public async Task Start (string lang) {
             if (_webView != null)
             {
-                await _webView.ExecuteScriptAsync($"StartASR({lang})");
+                await _webView.ExecuteScriptAsync($"startAudioSystem({lang})");
             }
         }
 
         public async Task Stop () {
             if (_webView != null)
             {
-                await _webView.ExecuteScriptAsync("StopASR()");
+                await _webView.ExecuteScriptAsync("stopAudioSystem()");
             }
         }
 
