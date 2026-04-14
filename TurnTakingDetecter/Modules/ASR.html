@@ -1,12 +1,15 @@
 <script>
     let recog = null;
+    let running = false;
 
-    function Start(lang){
+    function StartASR(lang){
         recog = new webkitSpeechRecognition();
 
-        recog.lang = lang; # ex."ja-JP";
+        recog.lang = lang; // ex."ja-JP";
         recog.interimResults = true; // 途中の音声認識結果も取得
         recog.continuous = true;
+
+        running = true;
 
         recog.onresult = function(event){
             for(let i = event.resultIndex; i < event.results.length; i++){
@@ -23,16 +26,32 @@
 
         }
 
-        recog.onerror = function(e){
-            window.chrome.webview.postMessage([
-                error: e.rror
-            ]);
+        recog.onerror = function (e) {
+            if (e.error === "no-speech") { 
+                window.chrome.webview.postMessage([
+                    e.error
+                ]);
+
+                return;
+            }
+
+            if (running) {
+                recog.start();
+            }
         };
+
+        recog.onend = function (e) {
+            if (running) {
+                recog.start();
+            }
+        }
 
         recog.start(); // 音声認識処理を開始
     }
 
-    function StopASR(){
+    function StopASR() {
+        running = false;
+
         if(recog){
             recog.stop();
         }

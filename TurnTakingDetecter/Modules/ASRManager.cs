@@ -25,14 +25,14 @@ namespace TurnTakingDetecter.Modules
         public async Task Start (string lang) {
             if (_webView != null)
             {
-                await _webView.ExecuteScriptAsync($"Start({lang})");
+                await _webView.ExecuteScriptAsync($"StartASR({lang})");
             }
         }
 
         public async Task Stop () {
             if (_webView != null)
             {
-                await _webView.ExecuteScriptAsync("Stop()");
+                await _webView.ExecuteScriptAsync("StopASR()");
             }
         }
 
