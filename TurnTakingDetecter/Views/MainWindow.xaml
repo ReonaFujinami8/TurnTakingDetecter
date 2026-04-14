@@ -5,7 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TurnTakingDetecter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        Height="600" 
+        MinHeight="600"
+        MaxHeight="600"
+        Width="1000"
+        MinWidth="1000"
+        MaxWidth="1000"
+        WindowStartupLocation="CenterScreen">
     <Grid>
 
     </Grid>
