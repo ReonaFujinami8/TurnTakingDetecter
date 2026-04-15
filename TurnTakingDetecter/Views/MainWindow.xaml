@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:TurnTakingDetecter"
         mc:Ignorable="d"
         Title="MainWindow" 
@@ -14,6 +15,33 @@
         MaxWidth="1000"
         WindowStartupLocation="CenterScreen">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <oxy:PlotView Margin="20 10 20 10" Model="{Binding VADPlot}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock Text="{Binding ASRIsFinal}"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <TextBlock Text="{Binding ASRRecognitionContent}"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Width="100" Height="50" HorizontalAlignment="Center" Content="Start" Command="{Binding StartAudioManagerCommand}"/>
+            <Button Grid.Column="1" Width="100" Height="50" HorizontalAlignment="Center" Content="Stop" Command="{Binding StopAudioManagerCommand}"/>
+        </Grid>
     </Grid>
 </Window>

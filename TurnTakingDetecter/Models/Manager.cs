@@ -9,29 +9,28 @@ namespace TurnTakingDetecter.Models
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private ASRManager? _asrManager;
-        private VoiceManager? _voiceManager;
+        private AudioManager? _audioManager;
 
-        public async Task ExecuteASR (string lang) {
-            _asrManager = new ASRManager();
+        public async Task StartAudio (string lang) {
+            _audioManager = new AudioManager();
 
-            _asrManager.OnResult += r =>
+            _audioManager.OnResult += r =>
             {
-                SetASRResult(r.Content);
+                SetAudioResult(r.Content);
             };
 
-            await _asrManager.Initialize();
-            await _asrManager.Start(lang);
+            await _audioManager.Initialize();
+            await _audioManager.Start(lang);
         }
 
-        public async Task StopASR () {
-            if(_asrManager != null)
+        public async Task StopAudio () {
+            if(_audioManager != null)
             {
-                await _asrManager.Stop();
+                await _audioManager.Stop();
             }
         }
 
-        private void SetASRResult (string result) {
+        private void SetAudioResult (string result) {
             var asrResult = JsonSerializer.Deserialize<ASRResult>(result);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(asrResult)));
         }

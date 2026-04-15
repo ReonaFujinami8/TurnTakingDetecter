@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace TurnTakingDetecter.Modules
 {
-    public class ASRManager
+    public class AudioManager
     {
         private WebView2? _webView;
 

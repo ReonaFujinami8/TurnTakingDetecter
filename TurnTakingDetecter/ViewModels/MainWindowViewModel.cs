@@ -1,4 +1,8 @@
-﻿using System.Windows.Input;
+﻿using OxyPlot;
+using OxyPlot.Series;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
 using TurnTakingDetecter.Components;
 using TurnTakingDetecter.Models;
 
@@ -6,27 +10,62 @@ namespace TurnTakingDetecter.ViewModels
 {
     public class MainWindowViewModel
     {
-        public ICommand RecvVoicePressureCommand { get; }
-        public ICommand ASRProcessCommand { get; }
-        public ICommand TurnTakingProcessCommand { get; }
+        private readonly LineSeries _vadSeries = new();
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public ICommand StartAudioManagerCommand { get; }
+        public ICommand StopAudioManagerCommand { get; }
+        public PlotModel VADPlot { get; } = new();
 
         private Manager _manager = new();
         public MainWindowViewModel () {
-            RecvVoicePressureCommand = new RelayCommand(RetrieveVoicePressure);
-            ASRProcessCommand = new RelayCommand(ExecuteASRProcess);
-            TurnTakingProcessCommand = new RelayCommand(ExecuteTurnTakingProcess);
+            StartAudioManagerCommand = new RelayCommand(StartAudioManager);
+            StopAudioManagerCommand = new RelayCommand(StopAudioManager);
+            _manager.PropertyChanged += ReferPropertyChanged; 
         }
 
-        private void RetrieveVoicePressure () {
+        private void StartAudioManager () {
+            MessageBox.Show("Start");
+        }
+
+        private void StopAudioManager () {
 
         }
 
-        private void ExecuteASRProcess () {
+        private void InitializePlot () {
 
         }
 
-        private void ExecuteTurnTakingProcess () {
+        private void ReferPropertyChanged (sender e, ) {
 
         }
+
+        public string ASRIsFinal
+        {
+            get => _asrIsFinal;
+            set
+            {
+                if(_asrIsFinal != value)
+                {
+                    _asrIsFinal = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ASRIsFinal)));
+                }
+            }
+        }
+        private string _asrIsFinal = string.Empty;
+
+        public string ASRRecognitionContent
+        {
+            get => _asrRecognitionContent;
+            set
+            {
+                if (_asrRecognitionContent != value)
+                {
+                    _asrRecognitionContent = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ASRRecognitionContent)));
+                }
+            }
+        }
+        private string _asrRecognitionContent = string.Empty;
     }
 }
