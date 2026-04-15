@@ -1,7 +1,5 @@
 ﻿using Microsoft.Web.WebView2.Wpf;
-using TurnTakingDetecter.Entities;
 using System.IO;
-using System.Text.Json;
 
 namespace TurnTakingDetecter.Modules
 {
@@ -9,13 +7,13 @@ namespace TurnTakingDetecter.Modules
     {
         private WebView2? _webView;
 
-        public event Action<ASRResult>? OnResult;
+        public event Action<string?>? OnResult;
 
         public async Task Initialize () {
             _webView = new WebView2 ();
             await _webView.EnsureCoreWebView2Async();
 
-            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Modules", "AudioManager.html"));
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Modules", "audio_manager.html"));
 
             _webView.Source = new Uri(path);
 
@@ -39,11 +37,9 @@ namespace TurnTakingDetecter.Modules
         private void OnMessage (object? sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e) {
             var json = e.WebMessageAsJson;
 
-            var result = JsonSerializer.Deserialize<ASRResult>(json);
-
-            if(result != null)
+            if(json != null)
             {
-                OnResult?.Invoke(result);
+                OnResult?.Invoke(json);
             }
         }
     }

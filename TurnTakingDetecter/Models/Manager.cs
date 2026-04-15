@@ -31,8 +31,59 @@ namespace TurnTakingDetecter.Models
         }
 
         private void SetAudioResult (string result) {
-            var asrResult = JsonSerializer.Deserialize<ASRResult>(result);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(asrResult)));
+            using JsonDocument document = JsonDocument.Parse(result);
+            JsonElement root = document.RootElement;
+            string? tmp = root.GetProperty("type").GetString();
+
+            if (tmp == "asr")
+            {
+                bool isFinal;
+                string content;
+                tmp = root.GetProperty("isFinal").GetString();
+                if(tmp == "true")
+                {
+                    isFinal = true;
+                }
+                else if(tmp == "false") 
+                {
+                    isFinal = false;
+                }
+                else
+                {
+                    return;
+                }
+
+                tmp = root.GetProperty("content").GetString();
+                if(tmp != null)
+                {
+                    content = tmp;
+                }
+                else
+                {
+                    return;
+                }
+
+                var asrResult = new ASRResult(isFinal, content);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(asrResult)));
+            }
+            else if (tmp == "vad")
+            {
+                float volume;
+                tmp = root.GetProperty("Volume").GetString();
+
+                if(tmp != null)
+                {
+                    volume = float.Parse(tmp);
+                }
+                else
+                {
+                    return;
+                }
+
+                var vadResult = new VADResult(volume);
+
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(vadResult)));
+            }
         }
     }
 }
